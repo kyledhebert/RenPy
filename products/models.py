@@ -36,10 +36,16 @@ class Category(models.Model):
 	class Meta:
 		verbose_name_plural = "Categories"
 
+	def __str__(self):
+		return self.category_name	
+
 
 class Order(models.Model):
 	order_date = models.DateField(auto_now_add=True)
 	order_total = models.FloatField()
+
+	def __str__(self):
+		return str(self.id)
 
 
 class OrderItem(models.Model):
