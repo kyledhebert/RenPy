@@ -41,8 +41,12 @@ class Category(models.Model):
 
 
 class Order(models.Model):
+	"""Represents a completed order"""
 	order_date = models.DateField(auto_now_add=True)
 	order_total = models.FloatField()
+	# the order_complete field will allow us to 
+	# use an order object as both an order and cart
+	order_complete = models.BooleanField()
 
 	def __str__(self):
 		return str(self.id)
@@ -58,8 +62,4 @@ class OrderItem(models.Model):
 
 	class Meta:
 		verbose_name_plural = "Order Items"
-
-
-
-				
-								
+			
