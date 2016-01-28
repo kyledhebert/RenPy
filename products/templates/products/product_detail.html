@@ -1,6 +1,14 @@
 <h1>{{ product.product_name }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'products:add_to_order' product.id %}" method="post">
+ {% csrf_token %}
+
 <ul>
 	<li>Category: {{ product.product_category }}</li>
 	<li>Size: {{ product.product_size }}</li>
 	<li>Cost: ${{ product.product_cost }}</li>
-</ul>		
+</ul>
+<input type="submit" value="Add to Order"/>
+</form>

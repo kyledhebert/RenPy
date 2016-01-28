@@ -51,6 +51,10 @@ class Order(models.Model):
 	def __str__(self):
 		return str(self.id)
 
+	# will need a method for calculating order total
+	def calculate_order_total():
+		pass	
+
 
 class OrderItem(models.Model):
 	"""Represents and item that has been sold"""
@@ -62,4 +66,7 @@ class OrderItem(models.Model):
 
 	class Meta:
 		verbose_name_plural = "Order Items"
+
+	def __str__(self):
+		return(self.product_name)	
 			
