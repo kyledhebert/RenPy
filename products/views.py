@@ -1,18 +1,23 @@
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.views import generic
 
 from .models import Order, OrderItem, Product
 
 
-def index(request):
-	product_list = Product.objects.all()	
-	context = {'product_list': product_list}
-	return render(request, 'products/index.html', context)	
+class IndexView(generic.ListView):
+	template_name = 'products/index.html'
+	context_object_name = 'product_list'
 
-def product_detail(request, product_id):
-	product = get_object_or_404(Product, pk=product_id)			
-	return render(request, 'products/product_detail.html', {'product': product})
+	def get_queryset(self):
+		"""Return the entire list of products."""
+		return Product.objects.all()
+
+
+class ProductDetailView(generic.DetailView):
+	model = Product
+	template_name = 'products/product_detail.html'		
 
 
 def add_to_order(request, product_id):
