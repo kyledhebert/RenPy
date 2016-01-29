@@ -1,6 +1,15 @@
 from django.db import models
 from django.utils import timezone
 
+class Category(models.Model):
+	category_name = models.CharField(max_length=30)
+
+	class Meta:
+		verbose_name_plural = "Categories"
+
+	def __str__(self):
+		return self.category_name	
+
 class Product(models.Model):
 	product_name = models.CharField(max_length=200)
 	# these should be taken from the category table
@@ -10,8 +19,8 @@ class Product(models.Model):
 		("ARMOR", "Armor"),
 		("ACCESORY", "Accesory")
 	)
-	product_category = models.CharField(max_length=30,
-										choices=PRODUCT_CATEGORY_CHOICES)
+
+	product_category = models.ManyToManyField(Category)
 
 	PRODUCT_SIZE_CHOICES = (
 		("N", "None"),
@@ -28,16 +37,6 @@ class Product(models.Model):
 
 	def __str__(self):
 		return self.product_name
-
-
-class Category(models.Model):
-	category_name = models.CharField(max_length=30)
-
-	class Meta:
-		verbose_name_plural = "Categories"
-
-	def __str__(self):
-		return self.category_name	
 
 
 class Order(models.Model):
@@ -58,7 +57,7 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
 	"""Represents and item that has been sold"""
-	order_number = models.IntegerField()
+	order_number = models.ForeignKey(Order)
 	product_name = models.CharField(max_length=200)
 	product_cost = models.FloatField()
 	quantity_sold = models.IntegerField()
