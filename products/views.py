@@ -5,9 +5,12 @@ from django.views import generic
 
 from .models import Order, OrderItem, Product
 
+def index(request):
+	return render(request, 'products/index.html')
 
-class IndexView(generic.ListView):
-	template_name = 'products/index.html'
+
+class ProductListView(generic.ListView):
+	template_name = 'products/product_list.html'
 	context_object_name = 'product_list'
 
 	def get_queryset(self):

@@ -1,9 +1,12 @@
-{% if product_list %}
-	<ul>
-	{% for product in product_list %}
-		<li><a href="{% url 'products:detail' product.id %}">{{ product }}</a></li>
-	{% endfor %}
-	</ul>
-{% else %}
-	<p>No products available.</p>
-{% endif %}					
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>The Balanced Hammer</title>
+	<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+	<h1>The Balanced Hammer</h1>
+	<p>Please take a number.</p>
+</body>
+</html>
