@@ -1,0 +1,32 @@
+{% extends 'products/base.html' %}
+{% block title %}Festival Sales - {{ block.super }}{% endblock %}
+{% block content %}
+	<h1>
+		
+		Browse Orders{% if festival %} From {{ festival }}{% endif %}
+	
+		
+	</h1>
+
+	<!-- display the festival locations as links -->
+	<nav>
+		{% for festival in festival_list %}
+			<li><a href="{% url 'products:orders_by_festival_list_view' festival=festival.id %}">
+				{{ festival }} 
+			</a></li>
+		{% endfor %}	
+	</nav>	
+	{% if orders_list %}
+		<ul>
+		{% for order in orders_list %}
+			<li>Order Number: {{ order }}</a>
+			Order Date: {{ order.order_date }} 
+			Order Total: ${{ order.order_total|floatformat:2 }}
+			Festival: {{ order.order_festival }}
+			</li>
+		{% endfor %}
+		</ul>
+	{% else %}
+		<p>No products available.</p>
+	{% endif %}
+{% endblock %}						

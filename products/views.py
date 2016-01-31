@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
 
-from .models import Order, OrderItem, Product
+from .models import Order, OrderItem, Product, Festival
 
 def index(request):
 	return render(request, 'products/index.html')
@@ -22,12 +22,29 @@ class ProductListView(generic.ListView):
 class ProductDetailView(generic.DetailView):
 	"""Generic DetailView for displaying indidual product detail page"""
 	model = Product
-	template_name = 'products/product_detail.html'		
+	template_name = 'products/product_detail.html'
+
+
+def browse_orders(request, festival=None):
+	"""Returns a list of all orders, or orders from a specific festival"""
+	festival_list = Festival.objects.all()
+
+	if festival:
+		orders_list = Order.objects.filter(order_festival=festival)
+	else:
+		orders_list = Order.objects.all()
+
+	return render(request, 'products/orders.html', {
+		'festival_list': festival_list,
+		'orders_list': orders_list,
+		'festival': festival,
+		})		
+
 
 
 def add_to_order(request, product_id):
 	"""Called when add to order is pressed on product detail page"""
-	
+
 	""" 
 	TODO currently this create a new order every time,
 	will need to implement session storage, and store the
