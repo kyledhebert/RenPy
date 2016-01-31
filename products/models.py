@@ -44,7 +44,7 @@ class Festival(models.Model):
 
 class Order(models.Model):
 	"""Represents a completed order"""
-	order_date = models.DateField(auto_now_add=True)
+	order_date = models.DateField(auto_now_add=False)
 	order_total = models.FloatField()
 	order_festival = models.ForeignKey(Festival, on_delete=models.CASCADE,)
 	# the order_complete field will allow us to 
