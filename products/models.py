@@ -62,7 +62,7 @@ class Order(models.Model):
 class OrderItem(models.Model):
 	"""Represents and item that has been sold"""
 	order_number = models.ForeignKey(Order, on_delete=models.CASCADE,)
-	product_name = models.CharField(max_length=200)
+	product_name = models.ForeignKey(Product, on_delete=models.CASCADE,)
 	product_cost = models.FloatField()
 	quantity_sold = models.IntegerField()
 
