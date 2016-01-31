@@ -10,7 +10,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
 	model = Order
-	list_display = ('order_date', 'order_total',)
+	list_display = ( Order,'order_date', 'order_total',)
 
 
 class OrderItemAdmin(admin.ModelAdmin):
