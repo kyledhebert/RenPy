@@ -5,7 +5,12 @@
 	{% if product_list %}
 		<ul>
 		{% for product in product_list %}
-			<li><a href="{% url 'products:product_detail_view' product.id %}">{{ product }}</a></li>
+			<li><a href="{% url 'products:product_detail_view' product.id %}">{{ product }}</a>
+			Size: {{ product.product_size }} 
+			Category: {% for category in product.product_category.all %}{{ category }}{% endfor %}
+			Inventory: {{product.product_quantity }}
+
+			</li>
 		{% endfor %}
 		</ul>
 	{% else %}
