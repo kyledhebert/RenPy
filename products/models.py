@@ -38,7 +38,7 @@ class Festival(models.Model):
 	festival_state = models.CharField(max_length=2)
 
 	def __str__(self):
-		return str(self.festival_name)
+		return self.festival_name
 
 
 
@@ -71,5 +71,5 @@ class OrderItem(models.Model):
 		verbose_name_plural = "Order Items"
 
 	def __str__(self):
-		return(self.product_name)	
+		return self.product_name	
 			

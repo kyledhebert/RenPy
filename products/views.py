@@ -27,6 +27,7 @@ class ProductDetailView(generic.DetailView):
 
 def add_to_order(request, product_id):
 	"""Called when add to order is pressed on product detail page"""
+	
 	""" 
 	TODO currently this create a new order every time,
 	will need to implement session storage, and store the
