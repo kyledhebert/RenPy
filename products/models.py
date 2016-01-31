@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 class Category(models.Model):
+	"""Categories for product objects"""
 	category_name = models.CharField(max_length=30)
 
 	class Meta:
@@ -12,16 +13,7 @@ class Category(models.Model):
 
 class Product(models.Model):
 	product_name = models.CharField(max_length=200)
-	# these should be taken from the category table
-	# in the database,but I'm sure how to do that just yet
-	PRODUCT_CATEGORY_CHOICES = (
-		("WEAPON", "Weapon"),
-		("ARMOR", "Armor"),
-		("ACCESORY", "Accesory")
-	)
-
 	product_category = models.ManyToManyField(Category)
-
 	PRODUCT_SIZE_CHOICES = (
 		("N", "None"),
 		("S", "Small"),
@@ -39,10 +31,22 @@ class Product(models.Model):
 		return self.product_name
 
 
+class Festival(models.Model):
+	"""Represents the different festivals the shop attends"""
+	festival_name = models.CharField(max_length=250)
+	festival_city = models.CharField(max_length=50)
+	festival_state = models.CharField(max_length=2)
+
+	def __str__(self):
+		return str(self.festival_name)
+
+
+
 class Order(models.Model):
 	"""Represents a completed order"""
 	order_date = models.DateField(auto_now_add=True)
 	order_total = models.FloatField()
+	order_festival = models.ForeignKey(Festival, on_delete=models.CASCADE,)
 	# the order_complete field will allow us to 
 	# use an order object as both an order and cart
 	order_complete = models.BooleanField()
@@ -57,7 +61,7 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
 	"""Represents and item that has been sold"""
-	order_number = models.ForeignKey(Order)
+	order_number = models.ForeignKey(Order, on_delete=models.CASCADE,)
 	product_name = models.CharField(max_length=200)
 	product_cost = models.FloatField()
 	quantity_sold = models.IntegerField()

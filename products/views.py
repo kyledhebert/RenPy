@@ -10,6 +10,7 @@ def index(request):
 
 
 class ProductListView(generic.ListView):
+	"""Generic ListView for displaying all products"""
 	template_name = 'products/product_list.html'
 	context_object_name = 'product_list'
 
@@ -19,6 +20,7 @@ class ProductListView(generic.ListView):
 
 
 class ProductDetailView(generic.DetailView):
+	"""Generic DetailView for displaying indidual product detail page"""
 	model = Product
 	template_name = 'products/product_detail.html'		
 
@@ -46,7 +48,7 @@ def add_to_order(request, product_id):
 							quantity_sold=1)
 	order_item.save()
 	# redirect to the order detail page
-	return HttpResponseRedirect(reverse('products:index'))
+	return HttpResponseRedirect(reverse('products:product_list_view'))
 
 
 
