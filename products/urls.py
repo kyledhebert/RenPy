@@ -15,5 +15,6 @@ urlpatterns = [
 	url(r'^reports/orders/$', views.browse_orders, name='orders_list_view'),
 	url(r'^reports/orders/(?P<festival>[0-9]+)/$', views.browse_orders, 
 		name='orders_by_festival_list_view'),
+	url(r'^reports/monthly/$', views.monthly_sales, name='monthly_sales')
 
 ]

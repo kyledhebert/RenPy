@@ -1,3 +1,5 @@
+import datetime
+
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -26,7 +28,9 @@ class ProductDetailView(generic.DetailView):
 
 
 def browse_orders(request, festival=None):
-	"""Returns a list of all orders, or orders from a specific festival"""
+	"""A list of all orders, or orders from a specific festival"""
+
+	# get the festivals from the database, to display browse options
 	festival_list = Festival.objects.all()
 
 	if festival:
@@ -38,7 +42,29 @@ def browse_orders(request, festival=None):
 		'festival_list': festival_list,
 		'orders_list': orders_list,
 		'festival': festival,
-		})		
+		})
+
+
+def monthly_sales(request):
+	"""A report of sales totals for the current month"""
+	# first determine today
+	today = datetime.datetime.now()
+	# then filter Order objects based on today's year and month
+	orders_list = Order.objects.filter(order_date__year=today.year,
+		order_date__month=today.month)
+
+	# get the total sales from the result
+	orders_total = 0
+	for order in orders_list:
+		orders_total += order.order_total
+
+	return render(request, 'products/monthly_sales.html', {
+		'orders_list': orders_list,
+		'orders_total': orders_total,
+		})
+
+
+
 
 
 
