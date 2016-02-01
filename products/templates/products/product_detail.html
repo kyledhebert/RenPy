@@ -1,4 +1,7 @@
-<h1>{{ product.product_name }}</h1>
+{% extends 'products/base.html' %}
+{% block title %}All Products - {{ block.super }}{% endblock %}
+{% block content %}
+	<h1>{{ product.product_name }}</h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
@@ -14,3 +17,7 @@
 not worth fixing for now -->
 <!-- <input type="submit" value="Add to Order"/> -->
 </form>
+{% endblock %}						
+
+
+
