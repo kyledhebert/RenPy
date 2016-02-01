@@ -1,13 +1,7 @@
 {% extends 'products/base.html' %}
 {% block title %}Festival Sales - {{ block.super }}{% endblock %}
 {% block content %}
-	<h1>
-		
-		Browse Orders{% if festival %} From {{ festival }}{% endif %}
-	
-		
-	</h1>
-
+	<h1>Browse Orders</h1>
 	<!-- display the festival locations as links -->
 	<nav>
 		{% for festival in festival_list %}
