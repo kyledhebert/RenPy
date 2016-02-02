@@ -51,6 +51,9 @@ class Order(models.Model):
 	# use an order object as both an order and cart
 	order_complete = models.BooleanField()
 
+	class Meta:
+		ordering = ["order_date"]
+
 	def __str__(self):
 		return str(self.id)
 

@@ -1,7 +1,15 @@
 {% extends 'products/base.html' %}
 {% block title %} Monthly Sales - {{ block.super }}{% endblock %}
 {% block content %}
-	<h1>Current Month</h1>
+	<h1>Monthly Sales Report</h1>
+	<!-- Report Options -->
+	<nav>
+		<ul>
+			<li><a href="{% url 'products:monthly_sales' %}">Current Month</a></li>
+			<li><a href="{% url 'products:monthly_sales_by_month' month='previous' %}">Last Month</a></li>
+			<li><a href="{% url 'products:monthly_sales_by_month' month='three' %}">Last Three Months</a></li>
+		</ul>	
+	</nav>	
 		
 	{% if orders_list %}
 		<ul>

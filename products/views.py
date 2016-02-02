@@ -1,9 +1,12 @@
-import datetime
+from datetime import datetime
+from dateutil.relativedelta import *
 
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
+
+
 
 from .models import Order, OrderItem, Product, Festival
 
@@ -45,13 +48,24 @@ def browse_orders(request, festival=None):
 		})
 
 
-def monthly_sales(request):
-	"""A report of sales totals for the current month"""
+def monthly_sales(request, month=None):
+	"""A report of sales totals a single month"""
 	# first determine today
-	today = datetime.datetime.now()
-	# then filter Order objects based on today's year and month
-	orders_list = Order.objects.filter(order_date__year=today.year,
-		order_date__month=today.month)
+	today = datetime.now()
+
+	# then filter Order objects based on parameter
+
+	if month == 'previous':
+		# use relativedelta to get last month
+		last_month = today + relativedelta(months=-1)
+		orders_list = Order.objects.filter(order_date__year=today.year,
+			order_date__month=last_month.month)
+	elif month == 'three':
+		start_date = today + relativedelta(months=-3)
+		orders_list = Order.objects.filter(order_date__range=(start_date, today))	
+	else:
+		orders_list = Order.objects.filter(order_date__year=today.year,
+			order_date__month=today.month)
 
 	# get the total sales from the result
 	orders_total = 0
