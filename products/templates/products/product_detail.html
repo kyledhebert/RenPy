@@ -1,4 +1,7 @@
-<h1>{{ product.product_name }}</h1>
+{% extends 'products/base.html' %}
+{% block title %}All Products - {{ block.super }}{% endblock %}
+{% block content %}
+	<h1>{{ product.product_name }}</h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
@@ -6,11 +9,16 @@
  {% csrf_token %}
 
 <ul>
-	<li>Category: {{ product.product_category }}</li>
+	<li>Category: {% for category in product.product_category.all %}{{ category }}{% endfor %}
+	</li>
 	<li>Size: {{ product.product_size }}</li>
-	<li>Cost: ${{ product.product_cost }}</li>
+	<li>Cost: ${{ product.product_cost|floatformat:2 }}</li>
 </ul>
 <!-- button doesn't work, orders require a festival
 not worth fixing for now -->
 <!-- <input type="submit" value="Add to Order"/> -->
 </form>
+{% endblock %}						
+
+
+
