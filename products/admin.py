@@ -15,7 +15,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 class OrderItemAdmin(admin.ModelAdmin):
 	model = OrderItem
-	list_display = ('order_number', 'product_name',
+	list_display = (OrderItem,'order_number', 'product_name',
 					'product_cost', 'quantity_sold',)	
 
 
