@@ -2,6 +2,7 @@ from datetime import datetime
 from dateutil.relativedelta import *
 
 from django.core.urlresolvers import reverse
+from django.db.models import Sum
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
@@ -50,6 +51,10 @@ def browse_orders(request, festival=None):
 
 def monthly_sales(request, month=None):
 	"""A report of sales totals a single month"""
+
+	def get_total_sales(orders_list):
+		return orders_list.aggregate(Sum('order_total'))
+
 	# first determine today
 	today = datetime.now()
 
@@ -60,21 +65,24 @@ def monthly_sales(request, month=None):
 		last_month = today + relativedelta(months=-1)
 		orders_list = Order.objects.filter(order_date__year=today.year,
 			order_date__month=last_month.month)
+		total_sales = orders_list.aggregate(Sum('order_total'))
+	
 	elif month == 'three':
 		start_date = today + relativedelta(months=-3)
-		orders_list = Order.objects.filter(order_date__range=(start_date, today))	
+		orders_list = Order.objects.filter(order_date__range=(start_date, today))
+		total_sales = orders_list.aggregate(Sum('order_total'))	
 	else:
 		orders_list = Order.objects.filter(order_date__year=today.year,
 			order_date__month=today.month)
+		total_sales = get_total_sales(orders_list)
 
-	# get the total sales from the result
-	orders_total = 0
-	for order in orders_list:
-		orders_total += order.order_total
+
+
+	
 
 	return render(request, 'products/monthly_sales.html', {
 		'orders_list': orders_list,
-		'orders_total': orders_total,
+		'total_sales': total_sales,
 		})
 
 
