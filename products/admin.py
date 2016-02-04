@@ -3,19 +3,19 @@ from .models import Product, Category, Order, OrderItem, Festival
 
 class ProductAdmin(admin.ModelAdmin):
 	model = Product
-	list_display = ('product_name',
+	list_display = ('id', 'product_name',
 					'product_size', 'product_quantity',
 					'product_cost',)
 
 
 class OrderAdmin(admin.ModelAdmin):
 	model = Order
-	list_display = ( Order,'order_date', 'order_festival', 'order_total',)
+	list_display = ( 'id','order_date', 'order_festival', 'order_total',)
 
 
 class OrderItemAdmin(admin.ModelAdmin):
 	model = OrderItem
-	list_display = (OrderItem,'order_number', 'product_name',
+	list_display = ('id','order_number', 'product_name',
 					'product_cost', 'quantity_sold',)	
 
 
