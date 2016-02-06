@@ -55,7 +55,7 @@ def monthly_sales(request, month=None):
 	def get_total_sales(orders_list):
 		return orders_list.aggregate(Sum('order_total'))
 
-	# first determine today
+	# first determine today, all dates below based on today
 	today = datetime.now()
 
 	# then filter Order objects based on parameter
@@ -65,12 +65,12 @@ def monthly_sales(request, month=None):
 		last_month = today + relativedelta(months=-1)
 		orders_list = Order.objects.filter(order_date__year=today.year,
 			order_date__month=last_month.month)
-		total_sales = orders_list.aggregate(Sum('order_total'))
+		total_sales = get_total_sales(orders_list)
 	
 	elif month == 'three':
 		start_date = today + relativedelta(months=-3)
 		orders_list = Order.objects.filter(order_date__range=(start_date, today))
-		total_sales = orders_list.aggregate(Sum('order_total'))	
+		total_sales = get_total_sales(orders_list)	
 	else:
 		orders_list = Order.objects.filter(order_date__year=today.year,
 			order_date__month=today.month)
