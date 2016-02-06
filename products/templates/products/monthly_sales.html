@@ -8,19 +8,27 @@
 			<li><a href="{% url 'products:monthly_sales' %}">Current Month</a></li>
 			<li><a href="{% url 'products:monthly_sales_by_month' month='previous' %}">Last Month</a></li>
 			<li><a href="{% url 'products:monthly_sales_by_month' month='three' %}">Last Three Months</a></li>
+			<li>Show sales from <input type="date"/> to <input type="date" /> </li>
 		</ul>	
 	</nav>	
 		
 	{% if orders_list %}
-		<ul>
-		{% for order in orders_list %}
-			<li>Order Number: {{ order }}</a>
-			Order Date: {{ order.order_date }} 
-			Order Total: ${{ order.order_total|floatformat:2 }}
-			Festival: {{ order.order_festival }}
-			</li>
-		{% endfor %}
-		</ul>
+		<table>
+			<tr>
+				<th>Order Number</th>
+				<th>Order Date</th>
+				<th>Order Total</th>
+				<th>Festival</th>
+			</tr>
+			{% for order in orders_list %}
+			<tr>
+				<td>{{ order }}</td>
+				<td>{{ order.order_date }}</td>
+				<td>${{ order.order_total|floatformat:2 }}</td>
+				<td>{{order.order_festival }}</td>
+			</tr>
+			{% endfor %}
+		</table>					
 	{% else %}
 		<p>No orders available.</p>
 	{% endif %}
