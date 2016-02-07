@@ -10,6 +10,7 @@ from django.views import generic
 
 
 from .models import Order, OrderItem, Product, Festival
+from .forms import OrderDatesForm
 
 def index(request):
 	return render(request, 'products/index.html')
@@ -76,18 +77,44 @@ def monthly_sales(request, month=None):
 			order_date__month=today.month)
 		total_sales = get_total_sales(orders_list)
 
-
-
-	
-
 	return render(request, 'products/monthly_sales.html', {
 		'orders_list': orders_list,
 		'total_sales': total_sales,
 		})
 
 
+def sales_over_time(request):
+	"""Generates a report of sales over a specified period"""
+
+	def get_total_sales(orders_list):
+		return orders_list.aggregate(Sum('order_total'))
 
 
+	# if this is a POST request, process the form data
+	if request.method == 'POST':
+		# create a form instance and populate it with data from the request
+		form = OrderDatesForm(request.POST)
+		#check whether the form is valid 
+		if form.is_valid():
+			# use the data in form.cleaned_data to make the query set
+			start_date = form.cleaned_data['start_date']
+			end_date = form.cleaned_data['end_date']
+			orders_list = Order.objects.filter(order_date__range=(start_date,end_date))
+			total_sales = get_total_sales(orders_list)
+	# if this is a GET create a blank form
+	else:
+		form = OrderDatesForm()
+		# default report will be for last 30 days
+		end_date = datetime.now()
+		start_date = end_date + relativedelta(months=-1)
+		orders_list = Order.objects.filter(order_date__range=(start_date,end_date))
+		total_sales = get_total_sales(orders_list)	
+		
+	return render(request, 'products/sales_over_time.html', {
+		'form': form,
+		'orders_list': orders_list,
+		'total_sales': total_sales
+		})	
 
 
 def add_to_order(request, product_id):

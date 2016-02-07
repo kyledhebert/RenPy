@@ -1,0 +1,32 @@
+{% extends 'products/base.html' %}
+{% block title %}Sales Over Time - {{ block.super }}{% endblock %}
+{% block content %}
+	<h1>Sales Over Time</h1>
+	<form action="" method="post">
+		{% csrf_token %}
+		{{ form }}
+		<input type="submit" value="Submit" />
+	</form>
+	{% if orders_list %}
+	<table>
+		<tr>
+			<th>Order Number</th>
+			<th>Order Date</th>
+			<th>Order Total</th>
+			<th>Festival</th>
+		</tr>
+		{% for order in orders_list %}
+		<tr>
+			<td>{{ order }}</td>
+			<td>{{ order.order_date }}</td>
+			<td>${{ order.order_total|floatformat:2 }}</td>
+			<td>{{order.order_festival }}</td>
+		</tr>
+		{% endfor %}
+	</table>					
+{% else %}
+	<p>No orders available.</p>
+{% endif %}
+Total Orders: {{ orders_list|length }} Total Sales ${{ total_sales.order_total__sum|floatformat:2 }}
+
+{% endblock %}	
