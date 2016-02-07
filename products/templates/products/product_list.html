@@ -3,16 +3,22 @@
 {% block content %}
 	<h1>All Products</h1>
 	{% if product_list %}
-		<ul>
-		{% for product in product_list %}
-			<li><a href="{% url 'products:product_detail_view' product.id %}">{{ product }}</a>
-			Size: {{ product.product_size }} 
-			Category: {% for category in product.product_category.all %}{{ category }}{% endfor %}
-			Inventory: {{product.product_quantity }}
-
-			</li>
-		{% endfor %}
-		</ul>
+		<table>
+			<tr>
+				<th>Product</th>
+				<th>Size</th>
+				<th>Category</th>
+				<th>Inventory</th>
+			</tr>
+			{% for product in product_list %}
+			<tr>
+				<td><a href="{% url 'products:product_detail_view' product.id %}">{{ product }}</a></td>
+				<td>{{ product.product_size }}</td>
+				<td>{% for category in product.product_category.all %}{{ category }}{% endfor %}</td>
+				<td>{{ product.product_quantity }}</td>
+			</tr>
+			{% endfor %}
+		</table>
 	{% else %}
 		<p>No products available.</p>
 	{% endif %}
