@@ -19,6 +19,7 @@ urlpatterns = [
 	url(r'^reports/monthly/$', views.monthly_sales, name='monthly_sales'),
 	url(r'^reports/monthly/(?P<month>[a-z]+)/$', views.monthly_sales,
 	 name='monthly_sales_by_month'),
+	url(r'^reports/sales_over_time/$', views.sales_over_time, name='sales_over_time'),
 
 
 ]
