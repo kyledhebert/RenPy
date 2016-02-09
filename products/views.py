@@ -89,7 +89,9 @@ def sales_over_time(request):
 	def get_total_sales(orders_list):
 		return orders_list.aggregate(Sum('order_total'))
 
-
+	orders_list = None
+	total_sales = None
+		
 	# if this is a POST request, process the form data
 	if request.method == 'POST':
 		# create a form instance and populate it with data from the request
@@ -104,11 +106,8 @@ def sales_over_time(request):
 	# if this is a GET create a blank form
 	else:
 		form = OrderDatesForm()
-		# default report will be for last 30 days
-		end_date = datetime.now()
-		start_date = end_date + relativedelta(months=-1)
-		orders_list = Order.objects.filter(order_date__range=(start_date,end_date))
-		total_sales = get_total_sales(orders_list)	
+
+		
 		
 	return render(request, 'products/sales_over_time.html', {
 		'form': form,
