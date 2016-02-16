@@ -82,8 +82,9 @@ def monthly_sales(request, month=None):
         'total_sales': total_sales,
         })
 
-    def sales_over_time(request):
-        """Generates a report of sales over a specified period"""
+
+def sales_over_time(request):
+    """Generates a report of sales over a specified period"""
 
     def get_total_sales(orders_list):
         return orders_list.aggregate(Sum('order_total'))
