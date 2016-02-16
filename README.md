@@ -10,7 +10,3 @@ A Django app for managing inventory and sales reports for a Renaissance Fair bla
 ## Usage
 From the command line cd into the RenPy directory and type:
 `$ python manage.py runserver`
-
-
-
-
